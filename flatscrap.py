@@ -6,7 +6,7 @@ from geopy import geocoders
 from rdflib import ConjunctiveGraph
 from rdflib import BNode, Literal, Namespace, URIRef
 from rdflib import plugin
-
+from rdflib.syntax.serializers import TurtleSerializer
 
 #print "Scrapping "+sys.argv[1]
 
@@ -75,5 +75,5 @@ graph.add((flat,FOAF['depiction'],i))
 graph.add((flat,DC['title'],Literal(title)))
 graph.add((flat,DC['description'],Literal(description)))
 
-print graph.serialize(destination=sys.argv[2],format='rdf')
+print graph.serialize(destination=sys.argv[2],format='xml')
 
