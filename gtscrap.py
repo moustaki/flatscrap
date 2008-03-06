@@ -11,6 +11,10 @@ f.close()
 
 soup = BeautifulSoup(html)
 
-print soup('span','fieldlabel')
+location =  soup('span','location')[0].contents[1][6:]
+
+print location
+
+
 
 
