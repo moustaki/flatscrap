@@ -27,6 +27,9 @@ if email1.startswith('/cgi-bin'):
 	email = "http://www.gumtree.com"+email1
 else :
 	email = email1
+image = "http://www.gumtree.com"+soup('div',id="images")[0].contents[1].attrs[0][1]
+
+
 #tel = clean(soup('div',id="replyto")[0].contents[0].contents[3])
 
 
@@ -34,5 +37,5 @@ print location
 print title
 print description
 print email
-
+print image
 
