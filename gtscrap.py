@@ -2,6 +2,10 @@
 import urllib
 import sys
 from BeautifulSoup import BeautifulSoup
+from rdflib import ConjunctiveGraph
+from rdflib import BNode, Literal, Namespace, URIRef
+from rdflib import plugin
+
 
 print "Scrapping "+sys.argv[1]
 
@@ -35,9 +39,31 @@ except:
 #tel = clean(soup('div',id="replyto")[0].contents[0].contents[3])
 
 
-print location
-print title
-print description
-print email
-print image
+print "Location: " + location
+print "Title: " + title
+print "Description: " + description
+print "Email: "+email
+print "Image: "+image
+
+
+RDF = Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
+GT = Namespace("http://purl.org/ontology/flat/")
+FOAF = Namespace("http://xmlns.com/foaf/0.1/")
+DC = Namespace("http://purl.org/dc/elements/1.1/")
+graph = ConjunctiveGraph()
+
+flat = BNode()
+p = BNode()
+e = URIRef(email)
+
+graph.add((flat,RDF.type,GT['Flat']))
+graph.add((flat,FOAF['based_near'],p))
+graph.add((p,RDFS.label,Literal(location)))
+graph.add((flat,FOAF['mbox'],e))
+graph.add((flat,FOAF['depiction'],image))
+graph.add((flat,DC['title'],Literal(title)))
+graph.add((flat,DC['description'],Literal(description)))
+
+print graph.serialize(format='rdf')
 
