@@ -22,7 +22,7 @@ class FlatScrap :
                 return t2
 
 
-	def scrap(self) :
+	def scrap(self,geolocation=True, geostring='London UK') :
 		f = urllib.urlopen(self.url)
 		html = f.read()
 		f.close()
@@ -33,11 +33,14 @@ class FlatScrap :
 		self.location = self.__clean(soup('span','location')[0].contents[1])
 		self.title = self.__clean(soup('div',id="title")[0].contents[0].contents[0])
 		self.description = soup('div',id="desc")[0].contents[0].contents[0].contents[0]
-		email1 = soup('span','email')[0].contents[2].attrs[0][1]
-		if email1.startswith('/cgi-bin'):
-			self.email = "http://www.gumtree.com"+email1
-		else :
-			self.email = email1
+		try:
+			email1 = soup('span','email')[0].contents[2].attrs[0][1]
+			if email1.startswith('/cgi-bin'):
+				self.email = "http://www.gumtree.com"+email1
+			else :
+				self.email = email1
+		except:
+			self.email = ''
 		try:
 			self.image = "http://www.gumtree.com"+soup('div',id="images")[0].contents[1].attrs[0][1]
 		except:
@@ -46,9 +49,19 @@ class FlatScrap :
 		#tel = clean(soup('div',id="replyto")[0].contents[0].contents[3])
 
 		# Geocoding
-		g = geocoders.Google('ABQIAAAAu0AMQcAkvqfViJpEeSH_-hT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQ0_Z6CDgX2Q08wvAh1aYjckybfeA')
-		self.place, (self.lat,self.lng) = g.geocode(self.location)
-
+		if geolocation==True:
+			try:	
+				search = self.location + " " + geostring
+				g = geocoders.Google('ABQIAAAAu0AMQcAkvqfViJpEeSH_-hT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQ0_Z6CDgX2Q08wvAh1aYjckybfeA')
+				self.place, (self.lat,self.lng) = g.geocode(search)
+			except:
+				self.place= ''
+				self.lat=''
+				self.lng=''
+		else:
+			self.place= ''
+			self.lat=''
+			self.lng=''
 
 		#print "Location: " + location
 		#print "Title: " + title
@@ -90,9 +103,9 @@ class FlatScrap :
 
 
 # Main
-
-fs = FlatScrap(sys.argv[1])
-fs.scrap()
-fs.out(sys.argv[2])
+#if len(sys.argv)==3:
+#	fs = FlatScrap(sys.argv[1])
+#	fs.scrap()
+#	fs.out(sys.argv[2])
 
 
