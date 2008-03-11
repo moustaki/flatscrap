@@ -3,15 +3,15 @@
 import sys
 import feedparser
 import simplejson
-from FlatScrap import *
+from FlatScrape import *
 
-class BatchScrap :
+class BatchScrape :
 	
 	def __init__(self,rss,limit=10):
 		self.rss = rss
 		self.limit = limit
 	
-	def scrap(self) :
+	def scrape(self) :
 		d = feedparser.parse(self.rss)
 		self.title = d.feed.title
 		e = d['entries']
@@ -20,8 +20,8 @@ class BatchScrap :
 		for k in range(0,min(len(e),self.limit)) :
 			url = e[k].links[0].href
 			self.urls.append(url)
-			f = FlatScrap(url)
-			f.scrap()
+			f = FlatScrape(url)
+			f.scrape()
 			self.fs.append(f)
 	
 	def outJs(self,file) :
@@ -39,7 +39,7 @@ class BatchScrap :
 		f.close()
 
 
-bs = BatchScrap(sys.argv[1],limit=50)
-bs.scrap()
+bs = BatchScrape(sys.argv[1],limit=50)
+bs.scrape()
 bs.outJs(sys.argv[2])
 

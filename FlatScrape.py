@@ -11,7 +11,7 @@ from rdflib.syntax.serializers import TurtleSerializer
 #print "Scrapping "+sys.argv[1]
 
 
-class FlatScrap :
+class FlatScrape :
 
 	def __init__(self,url) :
 		self.url = url
@@ -22,7 +22,7 @@ class FlatScrap :
                 return t2
 
 
-	def scrap(self,geolocation=True, geostring='London UK') :
+	def scrape(self,geolocation=True, geostring='London UK') :
 		f = urllib.urlopen(self.url)
 		html = f.read()
 		f.close()

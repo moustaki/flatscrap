@@ -1,9 +1,9 @@
-./SingleScrap.py <gumtreeurl> <outputfile>
+./SingleScrape.py <gumtreeurl> <outputfile>
 eg. 
-./SingleScrap.py http://www.gumtree.com/london/93/21153193.html test.rdf
+./SingleScrape.py http://www.gumtree.com/london/93/21153193.html test.rdf
 
-./BatchScrap <gumtreerss> <jsonfile>
+./BatchScrape <gumtreerss> <jsonfile>
 eg.
-./BatchScrap http://www.gumtree.com/london/3.xml flatscrap.js
+./BatchScrape http://www.gumtree.com/london/3.xml flatscrap.js
 (Exhibit JSON working with flatscrap.html)
 
